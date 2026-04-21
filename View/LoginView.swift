@@ -7,7 +7,7 @@ class LoginView {
         let password = "123456"
         
         viewModel.login(email: email, password: password) { message in
-            print(message)
+           print("Response: \(message)")
         }
     }
 }
