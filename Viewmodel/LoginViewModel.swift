@@ -2,26 +2,35 @@ class LoginViewModel {
     
     private let authService = AuthService()
     
-    func login(email: String, password: String, completion: @escaping (String) -> Void) {
+    var errorMessage: String?
+    var isLoading = false
+    
+    func login(email: String, password: String) {
         
-        // Validation
         if !Validator.isValidEmail(email) {
-            completion("Invalid Email")
+            errorMessage = "Invalid Email Format"
+            print(errorMessage!)
             return
         }
         
         if !Validator.isValidPassword(password) {
-            completion("Password must be at least 6 characters")
+            errorMessage = "Password must be 6+ characters with at least 1 number"
+            print(errorMessage!)
             return
         }
         
-        let user = User(email: email, password: password)
+        isLoading = true
+        print("Logging in...")
         
-        authService.login(user: user) { success in
+        authService.login(user: User(email: email, password: password)) { success in
+            
+            self.isLoading = false
+            
             if success {
-                completion("Login Successful")
+                print("Login Successful ✅")
             } else {
-                completion("Invalid Credentials ")
+                self.errorMessage = "Invalid Credentials"
+                print(self.errorMessage!)
             }
         }
     }

@@ -1,8 +1,15 @@
-class Validator{
+import Foundation
+
+class Validator {
+    
     static func isValidEmail(_ email: String) -> Bool {
-    return email.contains("@") && email.contains(".") && email.count > 5
-}
-    static func is validPassword(_ password: String) -> Bool{
-        return pawword.count>= 6
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: email)
+    }
+    
+    static func isValidPassword(_ password: String) -> Bool {
+        // At least 6 chars, 1 number
+        let regex = "^(?=.*[0-9]).{6,}$"
+        return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: password)
     }
 }
